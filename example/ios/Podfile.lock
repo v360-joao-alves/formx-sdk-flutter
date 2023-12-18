@@ -1,0 +1,40 @@
+PODS:
+  - Flutter (1.0.0)
+  - FormX (0.1.32)
+  - formx_sdk_flutter (0.0.1):
+    - Flutter
+    - FormX
+  - integration_test (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - FormX (from `https://github.com/oursky/formx-sdk.git`, tag `0.1.32`)
+  - formx_sdk_flutter (from `.symlinks/plugins/formx_sdk_flutter/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  FormX:
+    :git: https://github.com/oursky/formx-sdk.git
+    :tag: 0.1.32
+  formx_sdk_flutter:
+    :path: ".symlinks/plugins/formx_sdk_flutter/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+CHECKOUT OPTIONS:
+  FormX:
+    :git: https://github.com/oursky/formx-sdk.git
+    :tag: 0.1.32
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  FormX: 574e9afbd7356327d48c18202eeb23bbe00a8b3e
+  formx_sdk_flutter: 7d9967758dcc61d02b94ed05da9261d1b305ec34
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+
+PODFILE CHECKSUM: d7ca642765db2507721d18c8b118ccac863cc0ed
+
+COCOAPODS: 1.13.0
