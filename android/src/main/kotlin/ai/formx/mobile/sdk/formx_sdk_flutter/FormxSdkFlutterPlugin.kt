@@ -1,13 +1,14 @@
 package ai.formx.mobile.sdk.formx_sdk_flutter
 
-import androidx.annotation.NonNull
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import java.lang.Exception
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 /** FormxSdkFlutterPlugin */
 class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
@@ -23,23 +24,46 @@ class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "init") {
-            val formId = call.argument<String>("formId")
-            val accessToken = call.argument<String>("accessToken")
-            val endpoint = call.argument<String>("endpoint")
-            if (formId != null && accessToken != null) {
-                try {
-                    FormXSDKInitializer.init(formId, accessToken, endpoint)
-                } catch (e: Exception) {
-                    result.error(runtimeError(e), e)
+        when (call.method) {
+            "init" -> {
+                val formId = call.argument<String>("formId")
+                val accessToken = call.argument<String>("accessToken")
+                val endpoint = call.argument<String>("endpoint")
+                if (formId != null && accessToken != null) {
+                    try {
+                        FormXSDKInitializer.init(formId, accessToken, endpoint)
+                    } catch (e: Exception) {
+                        result.error(runtimeError(e), e)
+                        return
+                    }
+                    result.success(null)
+                } else {
+                    result.error(validationError("missing required parameters"))
+                }
+            }
+
+            "detect" -> {
+                val imagePath = call.argument<String>("imagePath")
+                if (imagePath == null) {
+                    result.error(validationError("missing required parameters"))
                     return
                 }
-                result.success(null)
-            } else {
-                result.error(validationError("missing required parameters"))
+                FormXSDKInitializer.apiClient?.let { apiClient ->
+                    val imageBytes = ImageHelper.readBytes(imagePath)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        apiClient.findDocuments(imageBytes).catch {
+                            result.error(formXSDKError(it))
+                        }.collect {
+                            val r = it.toMap()
+                            result.success(r)
+                        }
+                    }
+                } ?: result.error(formXSDKNotInitialized())
             }
-        } else {
-            result.notImplemented()
+
+            else -> {
+                result.notImplemented()
+            }
         }
     }
 

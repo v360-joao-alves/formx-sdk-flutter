@@ -1,3 +1,4 @@
+import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'formx_sdk_flutter_method_channel.dart';
@@ -22,7 +23,13 @@ abstract class FormxSdkFlutterPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
+
   Future<void> init(String formId, String accessToken, String? endpoint) {
-    throw UnimplementedError('init(formId, accessToken, endpoint) has not been implemented.');
+    throw UnimplementedError(
+        'init(formId, accessToken, endpoint) has not been implemented.');
+  }
+
+  Future<FormXDetectDocumentsResult?> detect(String imagePath) {
+    throw UnimplementedError('detect(imagePath) has not been implemented.');
   }
 }

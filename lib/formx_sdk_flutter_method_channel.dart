@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
 
 import 'formx_sdk_flutter_platform_interface.dart';
 
@@ -11,12 +12,25 @@ class MethodChannelFormxSdkFlutter extends FormxSdkFlutterPlatform {
 
   @override
   Future<void> init(String formId, String accessToken, String? endpoint) {
-    return methodChannel.invokeMethod<String>(
+    return methodChannel.invokeMethod<void>(
         'init',
         Map.of({
           "formId": formId,
           "accessToken": accessToken,
           "endpoint": endpoint
         }));
+  }
+
+  @override
+  Future<FormXDetectDocumentsResult?> detect(String imagePath) async {
+    final r = await methodChannel.invokeMethod<Map<Object?, Object?>>(
+        'detect',
+        Map.of({
+          "imagePath": imagePath,
+        }));
+    if (r != null) {
+      return FormXDetectDocumentsResult(r);
+    }
+    return null;
   }
 }

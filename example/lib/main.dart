@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
+import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
+import 'package:image_picker/image_picker.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load();
   runApp(const MyApp());
 }
 
@@ -16,36 +20,47 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
   final _formxSdkFlutterPlugin = FormxSdkFlutter();
+  final _picker = ImagePicker();
+  FormXDetectDocumentsResult? _detectResult;
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    setupFormXSDK();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String message;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+  Future<void> setupFormXSDK() async {
     try {
       await _formxSdkFlutterPlugin.init(
-          formId: "<FORM_ID>", accessToken: "<FORM_TOKEN>");
-      message = 'Initialized';
+          formId: dotenv.env["FORMX_FORM_ID"]!,
+          accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
+          endpoint: dotenv.env["FORMX_API_HOST"]);
     } on PlatformException catch (error) {
-      message = 'Failed to init. ${error.message}';
+      debugPrint(error.message);
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
+  }
 
-    setState(() {
-      _platformVersion = message;
-    });
+  _onDetectImage(BuildContext context) async {
+    try {
+      final image = await _picker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        _detectResult = null;
+      });
+      if (image != null) {
+        _detectResult = await _formxSdkFlutterPlugin.detect(image.path);
+        setState(() {});
+      }
+    } on PlatformException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.message ?? ""),
+      ));
+    } on Exception catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
   }
 
   @override
@@ -56,7 +71,23 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: [
+              if (_detectResult != null)
+                Text(
+                    "result ${_detectResult!.status}\ndetected document count: ${_detectResult!.documents.length}"),
+              Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      _onDetectImage(context);
+                    },
+                    child: const Text('Detect image'),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
