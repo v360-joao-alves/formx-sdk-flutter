@@ -61,6 +61,27 @@ class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
                 } ?: result.error(formXSDKNotInitialized())
             }
 
+            "extract" -> {
+                val imagePath = call.argument<String>("imagePath")
+                if (imagePath == null) {
+                    result.error(validationError("missing required parameters"))
+                    return
+                }
+                FormXSDKInitializer.formId?.let { formId ->
+                    FormXSDKInitializer.apiClient?.let { apiClient ->
+                        val imageBytes = ImageHelper.readBytes(imagePath)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            apiClient.extract(formId, imageBytes).catch {
+                                result.error(formXSDKError(it))
+                            }.collect {
+                                val r = it.toMap()
+                                result.success(r)
+                            }
+                        }
+                    } ?: result.error(formXSDKNotInitialized())
+                } ?: result.error(formXSDKNotInitialized())
+            }
+
             else -> {
                 result.notImplemented()
             }

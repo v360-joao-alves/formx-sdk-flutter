@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
 import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
+import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<void> main() async {
@@ -23,6 +24,7 @@ class _MyAppState extends State<MyApp> {
   final _formxSdkFlutterPlugin = FormxSdkFlutter();
   final _picker = ImagePicker();
   FormXDetectDocumentsResult? _detectResult;
+  FormXExtractionResult? _extractionResult;
 
   @override
   void initState() {
@@ -63,6 +65,27 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  _onExtractFromImage(BuildContext context) async {
+    try {
+      final image = await _picker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        _detectResult = null;
+      });
+      if (image != null) {
+        _extractionResult = await _formxSdkFlutterPlugin.extract(image.path);
+        setState(() {});
+      }
+    } on PlatformException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.message ?? ""),
+      ));
+    } on Exception catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,7 +105,20 @@ class _MyAppState extends State<MyApp> {
                     onPressed: () {
                       _onDetectImage(context);
                     },
-                    child: const Text('Detect image'),
+                    child: const Text('Detect document'),
+                  );
+                },
+              ),
+              if (_extractionResult != null)
+                Text(
+                    "result ${_extractionResult!.status}\nextracted item count: ${_extractionResult!.autoExtractionItems.length}"),
+              Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      _onExtractFromImage(context);
+                    },
+                    child: const Text('Extract from image'),
                   );
                 },
               ),

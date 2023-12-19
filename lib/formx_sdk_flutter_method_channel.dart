@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
+import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
 
 import 'formx_sdk_flutter_platform_interface.dart';
 
@@ -30,6 +31,19 @@ class MethodChannelFormxSdkFlutter extends FormxSdkFlutterPlatform {
         }));
     if (r != null) {
       return FormXDetectDocumentsResult(r);
+    }
+    return null;
+  }
+
+  @override
+  Future<FormXExtractionResult?> extract(String imagePath) async {
+    final r = await methodChannel.invokeMethod<Map<Object?, Object?>>(
+        'extract',
+        Map.of({
+          "imagePath": imagePath,
+        }));
+    if (r != null) {
+      return FormXExtractionResult(r);
     }
     return null;
   }

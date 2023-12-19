@@ -54,6 +54,41 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
             }
+        case "extract":
+            guard let arguments = call.arguments as? Dictionary<String, Any>,
+                  let imagePath = arguments["imagePath"] as? String else {
+                result(FormXError.validationError(message: "missing required parameters").asFlutterError())
+                return
+            }
+            guard let formXApiClient = FormXSDKInitializer.shared.apiClient,
+                  let formId = FormXSDKInitializer.shared.formId else {
+                result(FormXError.formXSDKNotInitialized().asFlutterError())
+                return
+            }
+            DispatchQueue.global().async {
+                guard
+                    let imageData = UIImage(contentsOfFile: URL(fileURLWithPath: imagePath).path)?.jpegData(
+                        compressionQuality: 1) else {
+                    DispatchQueue.main.async {
+                        result(FormXError.invalidImagePath(imagePath: imagePath).asFlutterError())
+                    }
+                    return
+                }
+                formXApiClient.extract(formId: formId, data: imageData) {response, error in
+                    
+                    DispatchQueue.main.async {
+                        if let err = error {
+                            result(FormXError.formXSDKError(err: err).asFlutterError())
+                            return
+                        }
+                        guard let response = response else {
+                            result(FormXError.emptyAPIResponse().asFlutterError())
+                            return
+                        }
+                        result(response.toMap())
+                    }
+                }
+            }
         default:
             result(FlutterMethodNotImplemented)
         }
