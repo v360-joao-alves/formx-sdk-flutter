@@ -1,131 +1,42 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
-import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:formx_sdk_flutter_example/screens/camera_screen.dart';
+import 'package:formx_sdk_flutter_example/screens/home_screen.dart';
+import 'package:formx_sdk_flutter_example/screens/sdk_methods_demo_screen.dart';
+import 'package:go_router/go_router.dart';
 
 Future<void> main() async {
   await dotenv.load();
+
+  await FormxSdkFlutter().init(
+      formId: dotenv.env["FORMX_FORM_ID"]!,
+      accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
+      endpoint: dotenv.env["FORMX_API_HOST"]);
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+final _router = GoRouter(routes: [
+  GoRoute(path: "/", builder: (_, __) => const HomeScreen()),
+  GoRoute(
+    path: "/sdk_demo",
+    builder: (_, __) => const SDKMethodsDemoScreen(),
+  ),
+  GoRoute(
+    path: "/camera",
+    builder: (_, __) => const CameraScreen(),
+  )
+]);
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final _formxSdkFlutterPlugin = FormxSdkFlutter();
-  final _picker = ImagePicker();
-  FormXDetectDocumentsResult? _detectResult;
-  FormXExtractionResult? _extractionResult;
-
-  @override
-  void initState() {
-    super.initState();
-    setupFormXSDK();
-  }
-
-  Future<void> setupFormXSDK() async {
-    try {
-      await _formxSdkFlutterPlugin.init(
-          formId: dotenv.env["FORMX_FORM_ID"]!,
-          accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
-          endpoint: dotenv.env["FORMX_API_HOST"]);
-    } on PlatformException catch (error) {
-      debugPrint(error.message);
-    }
-    if (!mounted) return;
-  }
-
-  _onDetectImage(BuildContext context) async {
-    try {
-      final image = await _picker.pickImage(source: ImageSource.gallery);
-
-      setState(() {
-        _detectResult = null;
-      });
-      if (image != null) {
-        _detectResult = await _formxSdkFlutterPlugin.detect(image.path);
-        setState(() {});
-      }
-    } on PlatformException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message ?? ""),
-      ));
-    } on Exception catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-    }
-  }
-
-  _onExtractFromImage(BuildContext context) async {
-    try {
-      final image = await _picker.pickImage(source: ImageSource.gallery);
-
-      setState(() {
-        _detectResult = null;
-      });
-      if (image != null) {
-        _extractionResult = await _formxSdkFlutterPlugin.extract(image.path);
-        setState(() {});
-      }
-    } on PlatformException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.message ?? ""),
-      ));
-    } on Exception catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              if (_detectResult != null)
-                Text(
-                    "result ${_detectResult!.status}\ndetected document count: ${_detectResult!.documents.length}"),
-              Builder(
-                builder: (context) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      _onDetectImage(context);
-                    },
-                    child: const Text('Detect document'),
-                  );
-                },
-              ),
-              if (_extractionResult != null)
-                Text(
-                    "result ${_extractionResult!.status}\nextracted item count: ${_extractionResult!.autoExtractionItems.length}"),
-              Builder(
-                builder: (context) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      _onExtractFromImage(context);
-                    },
-                    child: const Text('Extract from image'),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+    return MaterialApp.router(
+      routerConfig: _router,
     );
   }
 }
