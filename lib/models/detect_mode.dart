@@ -1,0 +1,1 @@
+enum DetectMode { online, offline }

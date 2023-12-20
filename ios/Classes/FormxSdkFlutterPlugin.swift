@@ -6,6 +6,8 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
         let channel = FlutterMethodChannel(name: "formx_sdk_flutter", binaryMessenger: registrar.messenger())
         let instance = FormxSdkFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        let factory = FormXCameraNativeViewFactory(messenger: registrar.messenger())
+        registrar.register(factory, withId: "formx_sdk_flutter/camera_view_ios")
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
