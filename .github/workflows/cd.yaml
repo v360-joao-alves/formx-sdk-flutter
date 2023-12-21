@@ -1,0 +1,33 @@
+name: CD
+env:
+  VERSION: 1.0.0
+  FORMX_FORM_ID: ${{ secrets.FORMX_FORM_ID }}
+  FORMX_ACCESS_TOKEN: ${{ secrets.FORMX_ACCESS_TOKEN }}
+  FORMX_API_HOST: ${{ secrets.FORMX_API_HOST }}
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release-ios:
+    runs-on: [self-hosted, macOS, ARM64, v2]
+    env:
+      DEVELOPER_DIR: /Volumes/xcodes/Xcode-15.0.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: oursky/github-ci-support/setup-flutter@v1
+        with:
+          flutter-version: "3.10.6"
+      - name: Install dependencies
+        working-directory: ./example
+        run: flutter pub get
+      - name: Setup ios build configs
+        working-directory: ./example
+        run: |
+          echo "BUILD_VERSION=`date +%s`" >> $GITHUB_ENV
+          make env_to_dotenv
+      - name: Build & Deploy example ipa to testflight
+        working-directory: ./example
+        run: bundle exec fastlane app_deploy build_version:${BUILD_VERSION} version:${VERSION}

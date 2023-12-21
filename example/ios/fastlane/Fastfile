@@ -1,0 +1,49 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+default_platform(:ios)
+
+platform :ios do
+  desc "Deploy app"
+  lane :app_deploy do |options|
+    app_build options
+    app_testflight options
+  end
+
+  desc "Build app"
+  lane :app_build do |options|
+    install_provisioning_profile(path: "app.mobileprovision")
+
+    cocoapods()
+
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      xcargs: "FLUTTER_BUILD_NUMBER='#{options[:build_version]}' FLUTTER_BUILD_NAME='#{options[:version]}'",
+      export_options: {
+        provisioningProfiles: {
+          "com.oursky.formx.flutter-example" => "FormX Flutter Demo",
+        }
+      }
+    )
+  end
+
+  desc "Upload app to testflight"
+  lane :app_testflight do |options|
+    upload_to_testflight(
+      api_key_path: ENV['APP_STORE_CONNECT_API_KEY_FILE'],
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
