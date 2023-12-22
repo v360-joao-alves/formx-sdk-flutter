@@ -19,13 +19,10 @@ jobs:
 
       - uses: oursky/github-ci-support/setup-flutter@v1
         with:
-          flutter-version: "3.10.6"
-          flutter-cache: "3.10.6"
+          flutter-version: "3.16.5"
       - name: Install dependencies
         working-directory: ./example
-        run: |
-          which flutter
-          flutter pub get
+        run: flutter pub get
       - name: Setup ios build configs
         working-directory: ./example
         run: |
