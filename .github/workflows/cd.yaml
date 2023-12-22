@@ -16,7 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - uses: oursky/github-ci-support/setup-flutter@v1
         with:
           flutter-version: "3.16.5"
@@ -29,5 +28,5 @@ jobs:
           echo "BUILD_VERSION=`date +%s`" >> $GITHUB_ENV
           make env_to_dotenv
       - name: Build & Deploy example ipa to testflight
-        working-directory: ./example
+        working-directory: ./example/ios
         run: bundle exec fastlane app_deploy build_version:${BUILD_VERSION} version:${VERSION}
