@@ -23,7 +23,9 @@ jobs:
           flutter-cache: "3.10.6"
       - name: Install dependencies
         working-directory: ./example
-        run: flutter pub get
+        run: |
+          which flutter
+          flutter pub get
       - name: Setup ios build configs
         working-directory: ./example
         run: |
