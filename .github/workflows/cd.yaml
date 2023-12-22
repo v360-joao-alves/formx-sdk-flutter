@@ -29,4 +29,6 @@ jobs:
           make env_to_dotenv
       - name: Build & Deploy example ipa to testflight
         working-directory: ./example/ios
-        run: bundle exec fastlane app_deploy build_version:${BUILD_VERSION} version:${VERSION}
+        run: |
+          bundle install
+          bundle exec fastlane app_deploy build_version:${BUILD_VERSION} version:${VERSION}
