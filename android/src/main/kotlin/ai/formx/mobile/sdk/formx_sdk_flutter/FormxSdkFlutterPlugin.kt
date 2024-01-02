@@ -1,5 +1,7 @@
 package ai.formx.mobile.sdk.formx_sdk_flutter
 
+import ai.formx.mobile.sdk.FormXBlurDetector
+import android.graphics.BitmapFactory
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -80,6 +82,21 @@ class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
                         }
                     } ?: result.error(formXSDKNotInitialized())
                 } ?: result.error(formXSDKNotInitialized())
+            }
+
+            "isBlurry" -> {
+                val imagePath = call.argument<String>("imagePath")
+                val threshold = call.argument<Double>("threshold")
+                if (imagePath == null || threshold == null) {
+                    result.error(validationError("missing required parameters"))
+                    return
+                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val bitmap = BitmapFactory.decodeFile(imagePath)
+
+                    val isBlurry = FormXBlurDetector(threshold.toFloat()).isBlurry(bitmap)
+                    result.success(isBlurry)
+                }
             }
 
             else -> {

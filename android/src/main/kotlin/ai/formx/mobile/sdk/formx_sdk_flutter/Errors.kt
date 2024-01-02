@@ -1,5 +1,7 @@
 package ai.formx.mobile.sdk.formx_sdk_flutter
 
+import ai.formx.mobile.sdk.FormXAPIExtractErrorException
+import ai.formx.mobile.sdk.camera.FormXCameraModeOnline
 import io.flutter.plugin.common.MethodChannel
 import java.lang.Exception
 
@@ -29,6 +31,9 @@ fun formXSDKError(exception: Exception) : Error {
     return Error(ErrorCode.FormXSDKError, exception.message ?: "", exception)
 }
 fun formXSDKError(throwable: Throwable) : Error {
+    (throwable as? FormXAPIExtractErrorException)?.let {
+        return Error(ErrorCode.FormXSDKError, it.response.error.message, it)
+    }
     return Error(ErrorCode.FormXSDKError, throwable.message ?: "", throwable)
 }
 fun emptyAPIResponse(): Error{

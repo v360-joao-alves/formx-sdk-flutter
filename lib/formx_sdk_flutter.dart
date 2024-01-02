@@ -16,4 +16,8 @@ class FormxSdkFlutter {
   Future<FormXExtractionResult?> extract(String imagePath) {
     return FormxSdkFlutterPlatform.instance.extract(imagePath);
   }
+
+  Future<bool?> isBlurry(String imagePath, double threshold) async {
+    return FormxSdkFlutterPlatform.instance.isBlurry(imagePath, threshold);
+  }
 }

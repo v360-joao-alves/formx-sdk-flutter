@@ -37,4 +37,9 @@ abstract class FormxSdkFlutterPlatform extends PlatformInterface {
   Future<FormXExtractionResult?> extract(String imagePath) {
     throw UnimplementedError('extract(imagePath) has not been implemented.');
   }
+
+  Future<bool?> isBlurry(String imagePath, double threshold) async {
+    throw UnimplementedError(
+        'isBlurry(imagePath, threshold) has not been implemented.');
+  }
 }

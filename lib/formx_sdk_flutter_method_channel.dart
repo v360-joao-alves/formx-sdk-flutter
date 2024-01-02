@@ -47,4 +47,18 @@ class MethodChannelFormxSdkFlutter extends FormxSdkFlutterPlatform {
     }
     return null;
   }
+
+  @override
+  Future<bool?> isBlurry(String imagePath, double threshold) async {
+    final r = await methodChannel.invokeMethod<bool>(
+        'isBlurry',
+        Map.of({
+          "imagePath": imagePath,
+          "threshold": threshold,
+        }));
+    if (r != null) {
+      return r;
+    }
+    return null;
+  }
 }

@@ -1,4 +1,5 @@
 import Flutter
+import FormX
 import UIKit
 
 public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
@@ -89,6 +90,26 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                         }
                         result(response.toMap())
                     }
+                }
+            }
+        case "isBlurry":
+            guard let arguments = call.arguments as? Dictionary<String, Any>,
+                  let imagePath = arguments["imagePath"] as? String,
+                  let threshold = arguments["threshold"] as? Double else {
+                result(FormXError.validationError(message: "missing required parameters").asFlutterError())
+                return
+            }
+            DispatchQueue.global().async {
+                guard
+                    let image = UIImage(contentsOfFile: URL(fileURLWithPath: imagePath).path)?.cgImage else {
+                    DispatchQueue.main.async {
+                        result(FormXError.invalidImagePath(imagePath: imagePath).asFlutterError())
+                    }
+                    return
+                }
+                let isBlurry = FormXBlurDetectorOpenCV(threshold: threshold).isBlurry(image: image)
+                DispatchQueue.main.async {
+                    result(isBlurry)
                 }
             }
         default:
