@@ -21,9 +21,15 @@ jobs:
           java-version: '11'
       - name: Install appcenter CLI
         uses: oursky/github-ci-support/setup-app-center@v1
-      - name: Finalize Android SDK
-        run: |
-          /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
+      - uses: oursky/github-ci-support/setup-android@v1
+        with:
+          accept-licenses: 'y'
+          # See gradle output to see what packages are required
+          packages: >-
+            platform-tools
+            tools
+            build-tools;34.0.0
+            platforms;android-34
       - uses: oursky/github-ci-support/setup-flutter@v1
         with:
           flutter-version: "3.16.5"
