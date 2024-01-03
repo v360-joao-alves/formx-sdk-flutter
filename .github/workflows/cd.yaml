@@ -9,6 +9,31 @@ on:
     branches:
       - main
 jobs:
+  release-android:
+    runs-on: [self-hosted, linux, x64, v1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: oursky/github-ci-support/setup-flutter@v1
+        with:
+          flutter-version: "3.16.5"
+      - name: Install dependencies
+        working-directory: ./example
+        run: flutter pub get
+      - name: Setup android build configs
+        working-directory: ./example
+        run: |
+          echo "BUILD_VERSION=`date +%s`" >> $GITHUB_ENV
+          make env_to_dotenv
+      - name: Build example apk
+        working-directory: ./example/android
+        run: |
+          ./gradlew assembleRelease
+      - name: Deploy example apk to appcenter
+        working-directory: ./example
+        run: |
+          npm install -g appcenter-cli
+          appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -a Oursky/FormX-SDK-Flutter-Android-Sample --group 'Collaborators'
   release-ios:
     runs-on: [self-hosted, macOS, ARM64, v2]
     env:

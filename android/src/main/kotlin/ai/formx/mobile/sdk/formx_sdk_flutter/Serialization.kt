@@ -7,6 +7,8 @@ import ai.formx.mobile.sdk.FormXAutoExtractionItem
 import ai.formx.mobile.sdk.FormXAutoExtractionItemType
 import ai.formx.mobile.sdk.FormXAutoExtractionPurchaseInfoItem
 import ai.formx.mobile.sdk.FormXAutoExtractionStringItem
+import ai.formx.mobile.sdk.FormXDocumentRegion
+import ai.formx.mobile.sdk.FormXPointF
 
 fun FormXAPIDetectDocumentsResponse.toMap(): HashMap<String, Any> =
     HashMap<String, Any>().apply {
@@ -70,4 +72,11 @@ fun FormXAutoExtractionItem.toMap(): HashMap<String, Any> =
 
             FormXAutoExtractionItemType.UnsupportedValueType -> put("value", value.toString())
         }
+    }
+
+
+fun Error.toMap(): HashMap<String, Any> =
+    HashMap<String, Any>().apply {
+        put("code", code.name)
+        put("message", message ?: "")
     }
