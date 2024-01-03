@@ -40,7 +40,7 @@ jobs:
       - name: Deploy example apk to appcenter
         working-directory: ./example
         run: |
-          npm install -g appcenter-cli
+          yarn global add appcenter-cli
           appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -a Oursky/FormX-SDK-Flutter-Android-Sample --group 'Collaborators'
   release-ios:
     runs-on: [self-hosted, macOS, ARM64, v2]
