@@ -1,3 +1,4 @@
+/// Common error message from FormX CameraView
 class FormXCameraViewError extends Error {
   final String code;
   final String message;

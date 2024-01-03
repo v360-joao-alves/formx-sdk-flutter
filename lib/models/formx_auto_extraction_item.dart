@@ -1,5 +1,6 @@
 sealed class FormXAutoExtractionItem {}
 
+/// Extraction structure of purchase info item
 class PurchaseInfoItemValue {
   final String name;
   final double amount;
@@ -16,6 +17,7 @@ class PurchaseInfoItemValue {
         unitPrice = json["unitPrice"] as double;
 }
 
+/// Extraction structure of a set of purchase info item
 class FormXAutoExtractionPurchaseInfoItem extends FormXAutoExtractionItem {
   final String name;
   final List<PurchaseInfoItemValue> value;
@@ -27,6 +29,7 @@ class FormXAutoExtractionPurchaseInfoItem extends FormXAutoExtractionItem {
             .toList();
 }
 
+/// Extraction structure of a single integer value
 class FormXAutoExtractionIntValue extends FormXAutoExtractionItem {
   final String name;
   final int value;
@@ -35,6 +38,7 @@ class FormXAutoExtractionIntValue extends FormXAutoExtractionItem {
         value = json["value"] as int;
 }
 
+/// Extraction structure of a single string value
 class FormXAutoExtractionStringValue extends FormXAutoExtractionItem {
   final String name;
   final String value;
@@ -43,6 +47,7 @@ class FormXAutoExtractionStringValue extends FormXAutoExtractionItem {
         value = json["value"] as String;
 }
 
+/// Extraction structure of unknown value
 class FormXAutoExtractionUnsupportedValue extends FormXAutoExtractionItem {
   final String name;
   final String value;

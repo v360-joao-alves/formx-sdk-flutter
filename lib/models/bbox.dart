@@ -1,3 +1,4 @@
+/// Bounding box
 class Bbox {
   Bbox(this.left, this.top, this.right, this.bottom);
   final int left;
