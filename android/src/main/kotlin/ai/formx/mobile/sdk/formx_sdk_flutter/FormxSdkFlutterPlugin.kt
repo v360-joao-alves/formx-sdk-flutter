@@ -3,6 +3,9 @@ package ai.formx.mobile.sdk.formx_sdk_flutter
 import ai.formx.mobile.sdk.FormXBlurDetector
 import android.graphics.BitmapFactory
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -13,16 +16,42 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 /** FormxSdkFlutterPlugin */
-class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
+class FormxSdkFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
+    private var flutterPluginBinding: FlutterPluginBinding? = null
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        this.flutterPluginBinding = flutterPluginBinding
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "formx_sdk_flutter")
         channel.setMethodCallHandler(this)
+    }
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        flutterPluginBinding?.let {
+            val cameraViewFactory = FormXCameraNativeViewFactory(
+                binding.activity,
+                messenger = it.binaryMessenger
+            )
+            it.platformViewRegistry.registerViewFactory(
+                "formx_sdk_flutter/camera_view_android",
+                cameraViewFactory
+            )
+        }
+    }
+
+    override fun onDetachedFromActivity() {
+        flutterPluginBinding = null
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        onAttachedToActivity(binding)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {

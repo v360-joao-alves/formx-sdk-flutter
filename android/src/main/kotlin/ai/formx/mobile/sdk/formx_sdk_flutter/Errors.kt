@@ -1,9 +1,7 @@
 package ai.formx.mobile.sdk.formx_sdk_flutter
 
 import ai.formx.mobile.sdk.FormXAPIExtractErrorException
-import ai.formx.mobile.sdk.camera.FormXCameraModeOnline
 import io.flutter.plugin.common.MethodChannel
-import java.lang.Exception
 
 enum class ErrorCode {
     ValidationError,

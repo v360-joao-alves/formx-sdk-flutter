@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:formx_sdk_flutter/default_formx_camera_view_platform.dart';
+import 'package:formx_sdk_flutter/formx_camera_view_android.dart';
 import 'package:formx_sdk_flutter/formx_camera_view_ios.dart';
 import 'package:formx_sdk_flutter/formx_camera_view_platform.dart';
 import 'package:formx_sdk_flutter/models/detect_mode.dart';
@@ -11,7 +12,9 @@ class FormXCameraController {
   FormXCameraController()
       : platform = defaultTargetPlatform == TargetPlatform.iOS
             ? FormXCameraViewIOS()
-            : DefaultFormXCameraViewPlatform();
+            : defaultTargetPlatform == TargetPlatform.android
+                ? FormXCameraViewAndroid()
+                : DefaultFormXCameraViewPlatform();
   void startCamera() {
     platform.startCamera();
   }
