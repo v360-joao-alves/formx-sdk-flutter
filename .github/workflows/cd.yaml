@@ -19,6 +19,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - name: Finalize Android SDK
+        run: |
+          /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
       - uses: oursky/github-ci-support/setup-flutter@v1
         with:
           flutter-version: "3.16.5"
