@@ -56,7 +56,6 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   _onCaptured(Uri imagePath) async {
-    _controller.stopCamera();
     await context.push("/preview", extra: imagePath);
     _controller.startCamera();
   }

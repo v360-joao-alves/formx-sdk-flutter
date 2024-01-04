@@ -77,10 +77,14 @@ class FormXCameraNativeViewFactory(
 
                             scope.launch(Dispatchers.Main) {
                                 _channel.invokeMethod("onCaptured", event)
+                                stopCamera()
                             }
-                        } ?: _channel.invokeMethod("onCaptured", HashMap<String?, Any?>().apply {
-                            put("imageURI", null)
-                        })
+                        } ?: scope.run {
+                            _channel.invokeMethod("onCaptured", HashMap<String?, Any?>().apply {
+                                put("imageURI", null)
+                            })
+                            stopCamera()
+                        }
                     }
 
                     override fun onError(error: Throwable) {

@@ -118,6 +118,7 @@ class FormXCameraNativeView: NSObject, FlutterPlatformView, FormXCameraViewDeleg
             try UIImage(cgImage: capturedImage)
                 .jpegData(compressionQuality: 1)?.write(to: imageURI)
             onCaptured(imageURI)
+            stopCamera()
         } catch {
             onCaptureError(nil)
         }
