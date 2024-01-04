@@ -9,16 +9,23 @@ Using FormX SDK within Flutter application
 | :--------: | :-----------: | :---: | :---: | :---: | :-----: |
 | ✅(SDK 26+) | ✅ (iOS 11.0+) |   ❌   |   ❌   |   ❌   |    ❌    |
 
-## Usage
 
-### FormXCameraView
-
-#### Setup
+## Setup
 
 <details>
 <summary>Android</summary>
 
-Please changed your activity with `FlutterFragmentActivity`
+1. Set the `minSdkVersion` in `android/app/build.gradle`:
+
+```
+android {
+    defaultConfig {
+        minSdkVersion 20
+    }
+}
+```
+
+2. Replace base activity with `FlutterFragmentActivity`
 
 ```
 class MainActivity: FlutterFragmentActivity() {
@@ -42,15 +49,18 @@ target 'Runner' do
 </details>
 
 
-#### Camera permission
+## Sample Usage
+
+### FormXCameraView
+
+1. Camera permission
 
 To use `FormXCameraView`, `Camera` permission must be granted. Recommend to use flutter plugin like [permission_handler](https://pub.dev/packages/permission_handler) to handle it.
 
 
+2. Eembed `FormXCameraView` in flutter app
 
-#### Eembed `FormXCameraView` in flutter app
-
-_Please refer to example app for details_
+_Refer to example app for details_
 
 ```
 Scaffold(
