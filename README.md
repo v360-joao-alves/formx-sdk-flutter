@@ -1,6 +1,6 @@
 # formx_sdk_flutter
 
-Using FormX SDK within Flutter application
+Using [FormX SDK](https://help.formx.ai/docs/getting-started) within Flutter application.
 
 
 ## Platform Support
@@ -20,7 +20,7 @@ Using FormX SDK within Flutter application
 ```
 android {
     defaultConfig {
-        minSdkVersion 20
+        minSdkVersion 26
     }
 }
 ```
@@ -42,7 +42,7 @@ target 'Runner' do
 
   ....skiped...
 
-  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.1.32'
+  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.3'
 
   ....skiped...
 ```
@@ -53,22 +53,20 @@ target 'Runner' do
 
 ### FormXCameraView
 
-1. Camera permission
+A native camera view to detect documents
+
+1. Obtain camera permission:
 
 To use `FormXCameraView`, `Camera` permission must be granted. Recommend to use flutter plugin like [permission_handler](https://pub.dev/packages/permission_handler) to handle it.
 
 
-2. Eembed `FormXCameraView` in flutter app
-
-_Refer to example app for details_
+2. Using `FormXCameraView` widget in flutter app:
 
 ```
 Scaffold(
       body: _cameraPermissionStatus == PermissionStatus.granted
           ? FormXCameraView(
               controller: _controller,
-              detectMode:
-                  detectOnServer ? DetectMode.online : DetectMode.offline,
               onClose: _onCloseCamera,
               onCaptured: _onCaptured,
               onCaptureError: _onCaptureError,
@@ -76,4 +74,6 @@ Scaffold(
       ...
 )
 ```
+_For complete tutorial please refer to [example app doc](./example/README.md)_ 
+
 
