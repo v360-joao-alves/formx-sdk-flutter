@@ -31,7 +31,6 @@ class _SDKMethodsDemoScreenState extends State {
   bool? _isBlurry;
   Exception? _checkBlurryError;
 
-  final _formxSdkFlutterPlugin = FormxSdkFlutter();
   XFile? _selectedImage;
 
   _onSelectImage(BuildContext context) async {
@@ -63,7 +62,7 @@ class _SDKMethodsDemoScreenState extends State {
         _detectError = null;
       });
       if (image != null) {
-        _detectResult = await _formxSdkFlutterPlugin.detect(image.path);
+        _detectResult = await FormxSdkFlutter.detect(image.path);
         setState(() {});
       }
     } on Exception catch (error) {
@@ -85,7 +84,7 @@ class _SDKMethodsDemoScreenState extends State {
         _isExtracting = true;
       });
       if (image != null) {
-        _extractionResult = await _formxSdkFlutterPlugin.extract(image.path);
+        _extractionResult = await FormxSdkFlutter.extract(image.path);
         setState(() {});
       }
     } on Exception catch (error) {

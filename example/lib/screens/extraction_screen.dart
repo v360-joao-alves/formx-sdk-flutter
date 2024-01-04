@@ -21,15 +21,13 @@ class _ExtractionScreenState extends State<ExtractionScreen> {
 
   FormXExtractionResult? _result;
 
-  final formXSdk = FormxSdkFlutter();
-
   _startExtraction() async {
     setState(() {
       _isExtracting = true;
     });
 
     try {
-      _result = await formXSdk.extract(widget.imagePath.toFilePath());
+      _result = await FormxSdkFlutter.extract(widget.imagePath.toFilePath());
       setState(() {
         _isExtracting = false;
       });

@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 Future<void> main() async {
   await dotenv.load();
 
-  await FormxSdkFlutter().init(
+  await FormxSdkFlutter.init(
       formId: dotenv.env["FORMX_FORM_ID"]!,
       accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
       endpoint: dotenv.env["FORMX_API_HOST"]);
