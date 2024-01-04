@@ -51,7 +51,6 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   _onCloseCamera() {
-    _controller.stopCamera();
     context.pop();
   }
 

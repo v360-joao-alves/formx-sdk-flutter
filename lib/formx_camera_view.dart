@@ -28,7 +28,7 @@ class FormXCameraController {
   }
 }
 
-class FormXCameraView extends StatelessWidget {
+class FormXCameraView extends StatefulWidget {
   FormXCameraView({
     super.key,
     this.detectMode = DetectMode.offline,
@@ -45,12 +45,25 @@ class FormXCameraView extends StatelessWidget {
   final FormXCameraController _controller;
 
   @override
+  State<StatefulWidget> createState() {
+    return FormXCameraViewState();
+  }
+}
+
+class FormXCameraViewState extends State<FormXCameraView> {
+  @override
+  void dispose() {
+    widget._controller.stopCamera();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return _controller.platform.buildWidget(
-      detectMode: detectMode,
-      onClose: onClose,
-      onCaptureError: onCaptureError,
-      onCaptured: onCaptured,
+    return widget._controller.platform.buildWidget(
+      detectMode: widget.detectMode,
+      onClose: widget.onClose,
+      onCaptureError: widget.onCaptureError,
+      onCaptured: widget.onCaptured,
     );
   }
 }
