@@ -31,7 +31,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.3'
+  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.4'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
