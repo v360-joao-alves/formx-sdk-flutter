@@ -1,6 +1,6 @@
-import 'package:formx_sdk_flutter/models/bbox.dart';
+import 'package:formx_sdk_flutter/src/models/bbox.dart';
 
-/// Recognized object by FormX
+/// Recognized Document by FormX
 class Document {
   Document(this.type, this.bbox);
   final String type;

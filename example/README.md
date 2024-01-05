@@ -19,8 +19,10 @@ First, you will need an Access Token and the Form ID of a Pre-Built Receipt Extr
 
 You can then configure the FormX SDK using the access token:
 
-```
-FormxSdkFlutter.init(
+```dart
+import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
+
+FormXSDK.init(
   formId: "<Paste Form ID>",
   accessToken: "<Paste Access Token>",
 );
@@ -30,7 +32,9 @@ FormxSdkFlutter.init(
 
 By default, the camera view detect object using offline ML models.  To detect documents using FormX API, pass `DetectMode.online` as detectMode argument and make sure network is up.
 
-```
+```dart
+import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
+
 FormXCameraView(
   detectMode: DetectMode.online,
   controller: _controller,
@@ -43,10 +47,12 @@ FormXCameraView(
 
 ## Extract Documents
 
+Once the image is ready, we can utilize FormX SDK to further extract document structures.
+
 ```
   _onCaptured(Uri imagePath) async {
     try {
-      final extractionResult = await FormxSdkFlutter.extract(widget.imagePath.toFilePath());
+      final extractionResult = await FormXSDK.extract(widget.imagePath.toFilePath());
       // TODO: write your custom logic here
     } on PlatformException catch (error) {
       // TODO: handle error

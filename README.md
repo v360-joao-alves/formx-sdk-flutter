@@ -83,5 +83,5 @@ Scaffold(
       ...
 )
 ```
-_For complete tutorial please refer to [example app doc](./example/README.md)_ 
+_For complete tutorial please refer to [example app doc](https://github.com/oursky/formx_sdk_flutter/tree/main/example)_ 
 

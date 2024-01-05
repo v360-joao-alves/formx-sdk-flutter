@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
 import 'package:formx_sdk_flutter_example/components/extraction_result_view.dart';
 
 class ExtractionScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _ExtractionScreenState extends State<ExtractionScreen> {
     });
 
     try {
-      _result = await FormxSdkFlutter.extract(widget.imagePath.toFilePath());
+      _result = await FormXSDK.extract(widget.imagePath.toFilePath());
       setState(() {
         _isExtracting = false;
       });

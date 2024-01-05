@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:formx_sdk_flutter/models/formx_auto_extraction_item.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
+import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
 import 'package:formx_sdk_flutter_example/components/extraction_item_view.dart';
 
 class ExtractionResultView extends StatelessWidget {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:formx_sdk_flutter/formx_camera_view.dart';
-import 'package:formx_sdk_flutter/models/detect_mode.dart';
-import 'package:formx_sdk_flutter/models/error.dart';
+import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -60,6 +58,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   _onCaptureError(FormXCameraViewError error) {
+    debugPrint("onError: ${error.message}");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error.message),

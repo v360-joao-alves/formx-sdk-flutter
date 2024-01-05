@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:formx_sdk_flutter/formx_camera_view_platform.dart';
-import 'package:formx_sdk_flutter/models/detect_mode.dart';
-import 'package:formx_sdk_flutter/models/error.dart';
+import 'package:formx_sdk_flutter/src/models/detect_mode.dart';
+import 'package:formx_sdk_flutter/src/models/error.dart';
+import 'package:formx_sdk_flutter/src/formx_camera_view_platform.dart';
 
 class DefaultFormXCameraViewPlatform extends FormXCameraViewPlatform {
   @override

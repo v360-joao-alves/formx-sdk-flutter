@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
+import 'package:formx_sdk_flutter/src/models/formx_detect_documents_result.dart';
+import 'package:formx_sdk_flutter/src/models/formx_extraction_result.dart';
 
 import 'formx_sdk_flutter_platform_interface.dart';
 

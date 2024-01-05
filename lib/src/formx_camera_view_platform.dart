@@ -1,9 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:formx_sdk_flutter/default_formx_camera_view_platform.dart';
-import 'package:formx_sdk_flutter/formx_sdk_flutter_platform_interface.dart';
-import 'package:formx_sdk_flutter/models/detect_mode.dart';
-import 'package:formx_sdk_flutter/models/error.dart';
+import 'package:formx_sdk_flutter/src/models/detect_mode.dart';
+import 'package:formx_sdk_flutter/src/models/error.dart';
+import 'package:formx_sdk_flutter/src/default_formx_camera_view_platform.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class FormXCameraViewPlatform extends PlatformInterface {

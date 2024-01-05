@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
-import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
-import 'package:formx_sdk_flutter/utility/formx_blur_detector.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SDKMethodsDemoScreen extends StatefulWidget {
@@ -62,7 +59,7 @@ class _SDKMethodsDemoScreenState extends State {
         _detectError = null;
       });
       if (image != null) {
-        _detectResult = await FormxSdkFlutter.detect(image.path);
+        _detectResult = await FormXSDK.detect(image.path);
         setState(() {});
       }
     } on Exception catch (error) {
@@ -84,7 +81,7 @@ class _SDKMethodsDemoScreenState extends State {
         _isExtracting = true;
       });
       if (image != null) {
-        _extractionResult = await FormxSdkFlutter.extract(image.path);
+        _extractionResult = await FormXSDK.extract(image.path);
         setState(() {});
       }
     } on Exception catch (error) {

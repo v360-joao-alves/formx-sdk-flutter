@@ -1,5 +1,5 @@
-import 'package:formx_sdk_flutter/models/formx_detect_documents_result.dart';
-import 'package:formx_sdk_flutter/models/formx_extraction_result.dart';
+import 'package:formx_sdk_flutter/src/models/formx_detect_documents_result.dart';
+import 'package:formx_sdk_flutter/src/models/formx_extraction_result.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'formx_sdk_flutter_method_channel.dart';

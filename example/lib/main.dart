@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
-import 'package:formx_sdk_flutter/models/formx_auto_extraction_item.dart';
 import 'package:formx_sdk_flutter_example/screens/camera_screen.dart';
 import 'package:formx_sdk_flutter_example/screens/extraction_screen.dart';
 import 'package:formx_sdk_flutter_example/screens/home_screen.dart';
@@ -15,7 +14,7 @@ import 'package:go_router/go_router.dart';
 Future<void> main() async {
   await dotenv.load();
 
-  await FormxSdkFlutter.init(
+  await FormXSDK.init(
       formId: dotenv.env["FORMX_FORM_ID"]!,
       accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
       endpoint: dotenv.env["FORMX_API_HOST"]);

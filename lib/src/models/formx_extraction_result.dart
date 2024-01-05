@@ -1,6 +1,6 @@
-import 'package:formx_sdk_flutter/models/formx_auto_extraction_item.dart';
+import 'package:formx_sdk_flutter/src/models/formx_auto_extraction_item.dart';
 
-/// FormX extraction result
+/// FormX Extraction Result
 class FormXExtractionResult {
   String formId;
   String status;
