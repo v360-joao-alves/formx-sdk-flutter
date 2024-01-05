@@ -7,8 +7,14 @@ Using [FormX SDK](https://help.formx.ai/docs/getting-started) within Flutter app
 
 |  Android   |      iOS      | MacOS |  Web  | Linux | Windows |
 | :--------: | :-----------: | :---: | :---: | :---: | :-----: |
-| ✅(SDK 26+) | ✅ (iOS 11.0+) |   ❌   |   ❌   |   ❌   |    ❌    |
+| ✅(SDK 26+) | ✅ (iOS 14.0+) |   ❌   |   ❌   |   ❌   |    ❌    |
 
+## Installation
+
+In the dependencies: section of your pubspec.yaml, add the following line:
+
+dependencies:
+  formx_sdk_flutter: <latest_version>
 
 ## Setup
 
@@ -36,7 +42,7 @@ class MainActivity: FlutterFragmentActivity() {
 <details>
 <summary>iOS</summary>
 
-Update `Podfile` with:
+1. Update `Podfile` with:
 ```
 target 'Runner' do
 
@@ -46,6 +52,9 @@ target 'Runner' do
 
   ....skiped...
 ```
+
+2. Set minimum deployments to `14.0`
+
 </details>
 
 
@@ -75,5 +84,4 @@ Scaffold(
 )
 ```
 _For complete tutorial please refer to [example app doc](./example/README.md)_ 
-
 
