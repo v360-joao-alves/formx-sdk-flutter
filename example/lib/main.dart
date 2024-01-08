@@ -15,9 +15,10 @@ Future<void> main() async {
   await dotenv.load();
 
   await FormXSDK.init(
-      formId: dotenv.env["FORMX_FORM_ID"]!,
-      accessToken: dotenv.env["FORMX_ACCESS_TOKEN"]!,
-      endpoint: dotenv.env["FORMX_API_HOST"]);
+    formId: dotenv.env["FORMX_FORM_ID"] ?? "<FILL_IN_FORM_ID>",
+    accessToken: dotenv.env["FORMX_ACCESS_TOKEN"] ?? "<FILL_IN_ACCESS_TOKEN>",
+    endpoint: dotenv.env["FORMX_API_HOST"],
+  );
   runApp(const MyApp());
 }
 
