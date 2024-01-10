@@ -14,10 +14,11 @@ import 'package:go_router/go_router.dart';
 Future<void> main() async {
   await dotenv.load();
 
+  final apiHost = dotenv.maybeGet("FORMX_API_HOST", fallback: "")!;
   await FormXSDK.init(
     formId: dotenv.env["FORMX_FORM_ID"] ?? "<FILL_IN_FORM_ID>",
     accessToken: dotenv.env["FORMX_ACCESS_TOKEN"] ?? "<FILL_IN_ACCESS_TOKEN>",
-    endpoint: dotenv.env["FORMX_API_HOST"],
+    endpoint: apiHost.isNotEmpty ? apiHost : null,
   );
   runApp(const MyApp());
 }
