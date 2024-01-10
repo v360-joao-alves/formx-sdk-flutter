@@ -7,7 +7,7 @@ import 'package:formx_sdk_flutter/src/formx_camera_view_android.dart';
 import 'package:formx_sdk_flutter/src/formx_camera_view_ios.dart';
 import 'package:formx_sdk_flutter/src/formx_camera_view_platform.dart';
 
-/// A controller used to manipulate native camera view
+/// A controller used to manipulate native formx camera view
 class FormXCameraController {
   final FormXCameraViewPlatform platform;
   FormXCameraController()

@@ -25,10 +25,9 @@ Created `.env` in example project then configure the FormX SDK using the `form i
 FORMX_FORM_ID=<FORM ID>
 FORMX_ACCESS_TOKEN=<ACCESS TOKEN>
 ```
+## Capture & Extract Documents
 
-## Capture Documents
-
-By default, the camera view detect object using offline ML models.  To detect documents using FormX API, pass `DetectMode.online` as detectMode argument and make sure network is up.
+With `FormXCameraView`you can detect documents on the fly. By default offline ML models is used to detect documents, pass `DetectMode.online` to detectMode argument to using FormX API and make sure network is up.
 
 ```dart
 import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
@@ -42,10 +41,7 @@ FormXCameraView(
 )
 ```
 
-
-## Extract Documents
-
-Once the image is ready, we can utilize FormX SDK to further extract document structures.
+To extract document, modified `_onCaptured` callback:
 
 ```
   _onCaptured(Uri imagePath) async {
@@ -57,9 +53,4 @@ Once the image is ready, we can utilize FormX SDK to further extract document st
     }
   }
 ```
-
-
-
-
-
 

@@ -1,7 +1,8 @@
+import 'package:formx_sdk_flutter/formx_sdk_flutter.dart';
 import 'package:formx_sdk_flutter/src/models/bbox.dart';
 import 'package:formx_sdk_flutter/src/models/document.dart';
 
-/// FormX Document Detector Result
+/// The response returned by [FormXSDK.detect]
 class FormXDetectDocumentsResult {
   final String status;
   final List<Document> documents;
