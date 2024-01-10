@@ -13,8 +13,10 @@ Using [FormX SDK](https://help.formx.ai/docs/getting-started) within Flutter app
 
 In the dependencies: section of your pubspec.yaml, add the following line:
 
+```yaml
 dependencies:
-  formx_sdk_flutter: <latest_version>
+  formx_sdk_flutter: ^1.0.0
+```
 
 ## Setup
 
@@ -48,7 +50,7 @@ target 'Runner' do
 
   ....skiped...
 
-  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.3'
+  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.4'
 
   ....skiped...
 ```
@@ -83,5 +85,5 @@ Scaffold(
       ...
 )
 ```
-_For complete tutorial please refer to [example app doc](https://github.com/oursky/formx_sdk_flutter/tree/main/example)_ 
+_For complete tutorial please refer to [example app doc](https://github.com/oursky/formx-sdk-flutter/tree/main/example)_
 
