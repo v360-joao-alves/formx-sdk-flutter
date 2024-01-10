@@ -25,6 +25,19 @@ Created `.env` in example project then configure the FormX SDK using the `form i
 FORMX_FORM_ID=<FORM ID>
 FORMX_ACCESS_TOKEN=<ACCESS TOKEN>
 ```
+## Installation
+
+```bash
+flutter pub get
+
+```
+
+## Build debug app on devices
+
+```bash
+flutter run
+```
+
 ## Capture & Extract Documents
 
 With `FormXCameraView`you can detect documents on the fly. By default offline ML models is used to detect documents, pass `DetectMode.online` to detectMode argument to using FormX API and make sure network is up.
