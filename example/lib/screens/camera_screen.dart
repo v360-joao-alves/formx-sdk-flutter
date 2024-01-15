@@ -24,25 +24,29 @@ class _CameraScreenState extends State<CameraScreen> {
         .addPostFrameCallback((_) => checkCameraPermission());
   }
 
+  _showNoPermissionError() {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: const Text("Permission request"),
+              content: const Text("Please grant camera permission"),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    context.pop();
+                    _onCloseCamera();
+                  },
+                  child: const Text("Ok"),
+                ),
+              ],
+            ));
+  }
+
   void checkCameraPermission() async {
     _cameraPermissionStatus = await Permission.camera.request();
 
     if (_cameraPermissionStatus != PermissionStatus.granted) {
-      showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-                title: const Text("Permission request"),
-                content: const Text("Please grant camera permission"),
-                actions: [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.pop();
-                      _onCloseCamera();
-                    },
-                    child: const Text("Ok"),
-                  ),
-                ],
-              ));
+      _showNoPermissionError();
     }
 
     setState(() {});
