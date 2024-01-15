@@ -8,53 +8,167 @@
 import Foundation
 import FormX
 
-extension FormXAutoExtractionItem {
-    func toMap() -> [String: Any] {
+extension FormXDataValue {
+    func toMap() -> [String: Any?] {
         switch self {
-        case .intValue(let intItem):
+        case .intValue(let value):
             return [
-                "type": "IntValueType",
-                "name": intItem.name,
-                "value": intItem.value,
+                "type": "FormXDataNumValue",
+                "value": Double(value),
             ]
-        case .purchaseInfoValue(let item):
+        case .doubleValue(let value):
             return [
-                "type": "PurhcaseInfoValueType",
-                "name": item.name,
-                "value": item.value.map({ productItem in
-                    return [
-                        "name": productItem.name ?? "",
-                        "sku": productItem.sku ?? "",
-                        "quantity": productItem.quantity ?? 0,
-                        "amount": productItem.amount ?? 0.0,
-                        "unitPrice": productItem.unitPrice ?? 0.0,
-                        "discount": productItem.discount ?? "0",
-                    ]
-                }),
+                "type": "FormXDataNumValue",
+                "value": value,
             ]
-        case .stringValue(let strItem):
+        case .listProduct(let productItems):
             return [
-                "type": "StringValueType",
-                "name": strItem.name,
-                "value": strItem.value,
+                "type": "FormXDataProductListValue",
+                "value": productItems.map({ productItem in
+                    [
+                            "name": productItem.name ?? "",
+                            "sku": productItem.sku ?? "",
+                            "quantity": productItem.quantity ?? 0,
+                            "amount": productItem.amount ?? 0.0,
+                            "unitPrice": productItem.unitPrice ?? 0.0,
+                            "discount": productItem.discount ?? "0",
+                            ]
+                })
+            ]
+        case .stringValue(let value):
+            return [
+                "type": "FormXDataStringValue",
+                "value": value,
+            ]
+        case .intList(let list):
+            return [
+                "type": "FormXDataNumListValue",
+                "value": list.map { Double($0) }
+            ]
+        case .doubleList(let list):
+            return [
+                "type": "FormXDataNumListValue",
+                "value": list
             ]
         case .unsupported:
             return [
-                "type": "UnsupportedValueType",
-                "name": "",
-                "value": "",
+                "type": "FormXDataUnknownValue",
+                "value": nil,
+            ]
+        case .boolValue(let value):
+            return [
+                "type": "FormXDataBoolValue",
+                "value": value,
+            ]
+        case .boolList(let list):
+            return [
+                "type": "FormXDataBoolListValue",
+                "value": list,
+            ]
+        case .stringList(let list):
+            return [
+                "type": "FormXDataStringListValue",
+                "value": list,
+            ]
+        case .map(let map):
+            return [
+                "type": "FormXDataMapValue",
+                "value": map,
+            ]
+        case .mapList(let list):
+            return [
+                "type": "FormXDataMapListValue",
+                "value": list,
             ]
         }
     }
 }
+
+extension ExtractMetaData {
+    func toMap() -> [String: Any?] {
+        return [
+            "extractorId": extractorId,
+            "jobId": jobId,
+            "usage": usage,
+            "requestId": requestId,
+        ]
+    }
+}
+
+extension FormXData {
+    func toMap() -> [String: Any?] {
+      return [
+        "value": value.toMap(),
+        "valueType": valueType,
+        "confidence": confidence,
+        "extractedBy": extractedBy
+      ]
+    }
+}
+
+extension ExtractDocumentMetaData {
+    
+    func toMap() -> [String: Any?] {
+        return [
+            "extractorType": extractorType,
+            "pageNo": pageNo,
+            "sliceNo": sliceNo,
+            "orientation": orientation
+        ]
+    }
+}
+
+extension ExtractDocument {
+    func toMap() -> [String: Any?] {
+      return [
+        "type": "ExtractDocument",
+        "extractorId": extractorId,
+        "documentType": type,
+        "typeConfidence": typeConfidence,
+        "metaData": metadata.toMap(),
+        "data": data.toMap(),
+        "detailedData": detailedData.mapValues({ d in
+            d.map { $0.toMap() }
+        }),
+        "boundingBox": boundingBox
+      ]
+    }
+}
+
+extension ExtractDocumentError.Error {
+    func toMap() -> [String: Any?] {
+        return [
+            "code": code,
+            "message": message,
+            "info": info,
+        ]
+    }
+}
+
+extension ExtractDocumentError {
+    func toMap() -> [String: Any?] {
+        return [
+            "type": "ExtractDocumentError",
+            "extractorId": extractorId,
+            "metaData": metaData.toMap(),
+            "error": error.toMap()
+        ]
+    }
+}
+
 extension FormXAPIExtractResult {
     func toMap() -> [String: Any] {
         return [
             "status": self.response.status,
-            "formId": self.response.formId,
-            "autoExtractionItems": self.response.autoExtractionItems.map({ item in
-                return item.toMap()
-            }),
+            "metaData": self.response.metadata.toMap(),
+            "documents": self.response.documents.map({ result in
+                switch result {
+                case .failed(let error):
+                    error.toMap()
+                case .success(let doc):
+                    doc.toMap()
+                }
+            })
         ]
     }
 }
@@ -87,3 +201,20 @@ extension FormXError {
       ]
     }
 }
+
+extension [String:FormXData?] {
+    func toMap() -> [String: Any?] {
+        return self.mapValues { v in
+            if let v = v {
+                return [
+                    "confidence": v.confidence,
+                    "value": v.value.toMap(),
+                    "valueType": v.valueType,
+                    "extractedBy": v.extractedBy
+                ]
+            }
+            return nil
+        }
+    }
+}
+
