@@ -50,7 +50,7 @@ target 'Runner' do
 
   ....skiped...
 
-  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.2.4'
+  pod 'FormX', :git => 'https://github.com/oursky/formx-sdk.git', tag: '0.3.0'
 
   ....skiped...
 ```
