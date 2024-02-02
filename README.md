@@ -15,7 +15,7 @@ In the dependencies: section of your pubspec.yaml, add the following line:
 
 ```yaml
 dependencies:
-  formx_sdk_flutter: ^1.0.0
+  formx_sdk_flutter: ^1.0.2
 ```
 
 ## Setup
