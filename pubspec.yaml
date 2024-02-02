@@ -1,7 +1,7 @@
 name: formx_sdk_flutter
 description: A Flutter plugin for using FormX SDK in iOS and Android applications.
 version: 1.0.0
-repository: https://github.com/oursky/formx_sdk_flutter
+repository: https://github.com/oursky/formx-sdk-flutter
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
