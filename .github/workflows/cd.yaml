@@ -20,6 +20,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.15.0
       - name: Install appcenter CLI
         uses: oursky/github-ci-support/setup-app-center@v1
       - uses: oursky/github-ci-support/setup-android@v1
