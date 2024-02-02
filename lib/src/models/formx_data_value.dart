@@ -60,11 +60,11 @@ sealed class FormXDataValue {
 }
 
 class FormXDataNumValue extends FormXDataValue {
-  FormXDataNumValue(super.json, this.v);
-  final double v;
+  FormXDataNumValue(super.json, this._v);
+  final double _v;
 
   @override
-  double get value => v;
+  double get value => _v;
 }
 
 class FormXDataNumListValue extends FormXDataValue {
@@ -76,11 +76,11 @@ class FormXDataNumListValue extends FormXDataValue {
 }
 
 class FormXDataBoolValue extends FormXDataValue {
-  FormXDataBoolValue(super.json, this.v);
-  final bool v;
+  FormXDataBoolValue(super.json, this._v);
+  final bool _v;
 
   @override
-  bool get value => v;
+  bool get value => _v;
 }
 
 class FormXDataBoolListValue extends FormXDataValue {
@@ -92,11 +92,11 @@ class FormXDataBoolListValue extends FormXDataValue {
 }
 
 class FormXDataStringValue extends FormXDataValue {
-  FormXDataStringValue(super.json, this.v);
-  final String v;
+  FormXDataStringValue(super.json, this._v);
+  final String _v;
 
   @override
-  String get value => v;
+  String get value => _v;
 }
 
 class FormXDataStringListValue extends FormXDataValue {
@@ -108,11 +108,11 @@ class FormXDataStringListValue extends FormXDataValue {
 }
 
 class FormXDataMapValue extends FormXDataValue {
-  FormXDataMapValue(super.json, this.v);
-  final Map<String, Object?> v;
+  FormXDataMapValue(super.json, this._v);
+  final Map<String, Object?> _v;
 
   @override
-  Map<String, Object?> get value => v;
+  Map<String, Object?> get value => _v;
 }
 
 class FormXDataMapListValue extends FormXDataValue {
