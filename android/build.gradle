@@ -49,6 +49,7 @@ android {
 
     defaultConfig {
         minSdkVersion 26
+        consumerProguardFiles('formx-proguard-rules.pro')
     }
 
     dependencies {
