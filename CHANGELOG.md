@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fix extration error on android platform
+
 ## 1.0.2
 
 * Make repository public
