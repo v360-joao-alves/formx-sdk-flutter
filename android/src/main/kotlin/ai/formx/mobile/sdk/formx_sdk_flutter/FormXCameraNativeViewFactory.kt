@@ -61,7 +61,6 @@ class FormXCameraNativeViewFactory(
                 it.isActive = true
                 it.listener = object : FormXCameraViewListener {
                     override fun onCaptureImage(images: List<Bitmap>) {
-                        it.isActive = false
                         val scope = it.findViewTreeLifecycleOwner()?.lifecycleScope
                         scope?.launch(Dispatchers.IO) {
                             val event = HashMap<String?, Any?>()
@@ -121,14 +120,14 @@ class FormXCameraNativeViewFactory(
         }
 
         private fun startCamera() {
-            view.isActive = true
             if (view.mode is FormXCameraModeOffline) {
                 view.mode = FormXCameraModeOffline()
             }
+            view.start()
         }
 
         private fun stopCamera() {
-            view.isActive = false
+            view.stop()
         }
 
         override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {

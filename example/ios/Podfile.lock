@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - FormX (0.3.0)
+  - FormX (0.4.0)
   - formx_sdk_flutter (1.0.0):
     - Flutter
     - FormX
@@ -13,7 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - FormX (from `https://github.com/oursky/formx-sdk.git`, tag `0.3.0`)
+  - FormX (from `https://github.com/oursky/formx-sdk.git`, tag `0.4.0`)
   - formx_sdk_flutter (from `.symlinks/plugins/formx_sdk_flutter/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
     :path: Flutter
   FormX:
     :git: https://github.com/oursky/formx-sdk.git
-    :tag: 0.3.0
+    :tag: 0.4.0
   formx_sdk_flutter:
     :path: ".symlinks/plugins/formx_sdk_flutter/ios"
   image_picker_ios:
@@ -37,16 +37,16 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   FormX:
     :git: https://github.com/oursky/formx-sdk.git
-    :tag: 0.3.0
+    :tag: 0.4.0
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  FormX: 246b88710995d37218707e12cdd9a57dd45a3c21
+  FormX: ee12629eb8a65ee863fd8592ea78789ccd16e75b
   formx_sdk_flutter: af2d460c3fb218b0e544371432aab283f8f9e776
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   integration_test: 13825b8a9334a850581300559b8839134b124670
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
 
-PODFILE CHECKSUM: 1c4fd636587ac2f3da3bccffe0013d9496db8848
+PODFILE CHECKSUM: 644d7cdc688af550419b7cae89cd71cc5d5710ab
 
 COCOAPODS: 1.13.0
