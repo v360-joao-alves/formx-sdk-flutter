@@ -3,6 +3,7 @@ package ai.formx.mobile.sdk.formx_sdk_flutter
 import ai.formx.mobile.sdk.camera.FormXCameraModeOffline
 import ai.formx.mobile.sdk.camera.FormXCameraModeOnline
 import ai.formx.mobile.sdk.camera.FormXCameraView
+import ai.formx.mobile.sdk.camera.FormXCameraViewConfiguration
 import ai.formx.mobile.sdk.camera.FormXCameraViewListener
 import ai.formx.mobile.sdk.camera.FormXCameraViewState
 import android.app.Activity
@@ -37,7 +38,7 @@ class FormXCameraNativeViewFactory(
 
         MethodChannel.MethodCallHandler {
         companion object {
-            const val JPEG_QUALITY = 75
+            const val QUALITY = 100
         }
 
         private val view: FormXCameraView = FormXCameraView(activity)
@@ -46,6 +47,9 @@ class FormXCameraNativeViewFactory(
         init {
             _channel.setMethodCallHandler(this)
             view.also {
+                it.configuration = FormXCameraViewConfiguration(
+                    showTextIndicator = false
+                )
                 it.setViewTreeLifecycleOwner(activity as LifecycleOwner)
                 it.mode = when (creationParams?.getOrDefault("detectMode", "offline")) {
                     "offline" -> {
@@ -65,9 +69,9 @@ class FormXCameraNativeViewFactory(
                         scope?.launch(Dispatchers.IO) {
                             val event = HashMap<String?, Any?>()
                             images.firstOrNull()?.let { image ->
-                                val out = File.createTempFile("capturedImage", ".jpg")
+                                val out = File.createTempFile("capturedImage", ".webp")
                                 FileOutputStream(out).use { stream ->
-                                    image.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, stream)
+                                    image.compress(Bitmap.CompressFormat.WEBP, QUALITY, stream)
                                 }
                                 event.apply {
                                     put("imageURI", out.absolutePath)
