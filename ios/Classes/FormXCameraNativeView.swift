@@ -99,11 +99,7 @@ class FormXCameraNativeView: NSObject, FlutterPlatformView, FormXCameraViewDeleg
     }
     
     func onCaptureError(_ error: Error?) {
-        if let err = error {
-            DispatchQueue.main.async {
-                self._channel.invokeMethod("onCaptureError", arguments: ["error": FormXError.formXSDKError(err: err).toMap()])
-            }
-        }
+
     }
     
     func formXCameraView(didCapture images: [CGImage]) {
@@ -133,9 +129,6 @@ class FormXCameraNativeView: NSObject, FlutterPlatformView, FormXCameraViewDeleg
     }
     
     func formXCameraView(didFailed error: Error) {
-        DispatchQueue.main.async {
-            self._channel.invokeMethod("onCaptureError", arguments: ["error": FormXError.formXSDKError(err: error).toMap()])
-        }
     }
     
     func formXCameraView(didRequestClose view: FormX.FormXCameraView) {
