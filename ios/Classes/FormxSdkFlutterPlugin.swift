@@ -44,17 +44,7 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                 }
                 formXApiClient.findDocuments(data: imageData) {response, error in
                     
-                    DispatchQueue.main.async {
-                        if let err = error {
-                            result(FormXError.formXSDKError(err: err).asFlutterError())
-                            return
-                        }
-                        guard let response = response else {
-                            result(FormXError.emptyAPIResponse().asFlutterError())
-                            return
-                        }
-                        result(response.toMap())
-                    }
+
                 }
             }
         case "extract":
@@ -73,23 +63,12 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                     let imageData = UIImage(contentsOfFile: URL(fileURLWithPath: imagePath).path)?.jpegData(
                         compressionQuality: 1) else {
                     DispatchQueue.main.async {
-                        result(FormXError.invalidImagePath(imagePath: imagePath).asFlutterError())
+
                     }
                     return
                 }
                 formXApiClient.extract(extractorId: extractorId, data: imageData) {response, error in
-                    
-                    DispatchQueue.main.async {
-                        if let err = error {
-                            result(FormXError.formXSDKError(err: err).asFlutterError())
-                            return
-                        }
-                        guard let response = response else {
-                            result(FormXError.emptyAPIResponse().asFlutterError())
-                            return
-                        }
-                        result(response.toMap())
-                    }
+
                 }
             }
         case "isBlurry":
@@ -103,7 +82,7 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                 guard
                     let image = UIImage(contentsOfFile: URL(fileURLWithPath: imagePath).path)?.cgImage else {
                     DispatchQueue.main.async {
-                        result(FormXError.invalidImagePath(imagePath: imagePath).asFlutterError())
+
                     }
                     return
                 }
