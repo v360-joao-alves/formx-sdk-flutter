@@ -58,19 +58,6 @@ public class FormxSdkFlutterPlugin: NSObject, FlutterPlugin {
                 result(FormXError.formXSDKNotInitialized().asFlutterError())
                 return
             }
-            DispatchQueue.global().async {
-                guard
-                    let imageData = UIImage(contentsOfFile: URL(fileURLWithPath: imagePath).path)?.jpegData(
-                        compressionQuality: 1) else {
-                    DispatchQueue.main.async {
-
-                    }
-                    return
-                }
-                formXApiClient.extract(extractorId: extractorId, data: imageData) {response, error in
-
-                }
-            }
         case "isBlurry":
             guard let arguments = call.arguments as? Dictionary<String, Any>,
                   let imagePath = arguments["imagePath"] as? String,
